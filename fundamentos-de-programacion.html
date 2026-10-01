@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundamentos de Programación: paso a paso</title>
+<style>
+:root{
+  --papel:#f6f9fd; --cuadro:#dbe6f3; --tinta:#1b2a4a; --suave:#4a5a78;
+  --margen:#e2565b; --marca:#ffe55c; --codigo:#14213d; --codigo-t:#e8eefc; --ok:#2d7a4f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; color:var(--tinta); background-color:var(--papel);
+  background-image:linear-gradient(var(--cuadro) 1px,transparent 1px),linear-gradient(90deg,var(--cuadro) 1px,transparent 1px);
+  background-size:28px 28px;
+  font-family:Georgia,"Times New Roman",serif; font-size:1.1rem; line-height:1.7;
+}
+.layout{display:grid; grid-template-columns:230px minmax(0,1fr); max-width:1080px; margin:0 auto; gap:0}
+nav{
+  position:sticky; top:0; align-self:start; height:100vh; overflow:auto;
+  padding:2rem 1rem 2rem 1.2rem; background:var(--papel); border-right:3px solid var(--margen);
+  font-family:"Trebuchet MS",Verdana,sans-serif; font-size:.95rem;
+}
+nav strong{display:block; margin-bottom:.8rem; font-size:1.05rem}
+nav ol{margin:0; padding-left:1.3rem}
+nav li{margin:.35rem 0}
+nav a{color:var(--tinta); text-decoration:none}
+nav a:hover{background:var(--marca)}
+main{padding:2.5rem 1.5rem 4rem 2.2rem; background:var(--papel)}
+header h1{
+  font-family:"Trebuchet MS",Verdana,sans-serif; font-size:clamp(2rem,5vw,3.2rem);
+  line-height:1.1; margin:0 0 1rem; letter-spacing:-.02em;
+}
+header p{max-width:62ch; color:var(--suave); margin:0 0 2.5rem}
+section{margin:0 0 3.5rem; scroll-margin-top:1rem}
+h2{
+  font-family:"Trebuchet MS",Verdana,sans-serif; font-size:1.7rem; margin:0 0 .8rem;
+  display:flex; gap:.7rem; align-items:baseline;
+}
+h2 .n{
+  flex:none; width:2.1rem; height:2.1rem; border-radius:50%; background:var(--tinta); color:#fff;
+  display:inline-grid; place-items:center; font-size:1rem; transform:translateY(-.1rem);
+}
+h3{font-family:"Trebuchet MS",Verdana,sans-serif; font-size:1.1rem; margin:1.6rem 0 .3rem}
+p,li{max-width:66ch}
+mark{background:var(--marca); padding:0 .15em}
+code{font-family:Consolas,Menlo,monospace; font-size:.92em; background:#e9eff8; padding:.05em .3em; border-radius:3px}
+pre{
+  margin:.8rem 0; padding:1rem 1.2rem; background:var(--codigo); color:var(--codigo-t);
+  border-radius:6px; overflow-x:auto; font-size:.92rem; line-height:1.55; max-width:100%;
+}
+pre code{background:none; padding:0; color:inherit; font-size:inherit}
+.k{color:#ffd166}.s{color:#9fe3b0}.c{color:#8fa3c7}
+.salida{margin:-.4rem 0 1rem; padding:.6rem 1.2rem; border-left:4px solid var(--ok); background:#eaf5ee; font-family:Consolas,Menlo,monospace; font-size:.9rem; white-space:pre-wrap}
+.salida::before{content:"Salida:"; display:block; font-family:"Trebuchet MS",sans-serif; font-size:.8rem; color:var(--ok); font-weight:bold}
+.idea{border:2px solid var(--tinta); border-radius:4px; background:#fffbe0; padding:.8rem 1.1rem; margin:1rem 0; max-width:66ch}
+.idea b{font-family:"Trebuchet MS",sans-serif}
+table{border-collapse:collapse; margin:.8rem 0; background:#fff; font-size:.95rem; max-width:100%}
+th,td{border:1px solid var(--cuadro); padding:.4rem .8rem; text-align:left}
+th{background:var(--tinta); color:#fff; font-family:"Trebuchet MS",sans-serif; font-weight:normal}
+.tabla{overflow-x:auto}
+details{margin:.6rem 0; max-width:66ch; border:1px solid var(--tinta); border-radius:4px; background:#fff}
+summary{cursor:pointer; padding:.6rem 1rem; font-family:"Trebuchet MS",sans-serif}
+summary:hover{background:var(--marca)}
+summary:focus-visible,a:focus-visible{outline:3px solid var(--margen); outline-offset:2px}
+details[open] summary{border-bottom:1px solid var(--tinta)}
+details > :not(summary){margin-left:1rem; margin-right:1rem}
+.reto{font-weight:bold}
+footer{color:var(--suave); font-size:.95rem; border-top:2px dashed var(--cuadro); padding-top:1rem}
+@media (max-width:820px){
+  .layout{display:block}
+  nav{position:static; height:auto; border-right:0; border-bottom:3px solid var(--margen)}
+  nav ol{columns:2}
+  main{padding:1.5rem 1rem 3rem}
+}
+@media print{nav{display:none}.layout{display:block}details{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav aria-label="Índice">
+  <strong>Ruta de estudio</strong>
+  <ol>
+    <li><a href="#algoritmos">Algoritmos</a></li>
+    <li><a href="#variables">Variables y tipos</a></li>
+    <li><a href="#operadores">Operadores</a></li>
+    <li><a href="#entrada-salida">Entrada y salida</a></li>
+    <li><a href="#condicionales">Condicionales</a></li>
+    <li><a href="#ciclos">Ciclos</a></li>
+    <li><a href="#funciones">Funciones</a></li>
+    <li><a href="#listas">Listas</a></li>
+    <li><a href="#practica">Práctica final</a></li>
+  </ol>
+</nav>
+
+<main>
+<header>
+  <h1>Fundamentos de Programación, paso a paso</h1>
+  <p>Ocho conceptos, en el orden en que conviene aprenderlos. Cada paso se apoya en el anterior: lee la explicación, escribe el ejemplo en tu computadora, cámbialo y observa qué pasa. Los ejemplos usan <mark>Python</mark> porque se lee casi como español.</p>
+</header>
+
+<section id="algoritmos">
+  <h2><span class="n">1</span>Algoritmos: pensar antes de escribir</h2>
+  <p>Un <b>algoritmo</b> es una lista ordenada de pasos para resolver un problema. Programar es escribir ese algoritmo en un lenguaje que la computadora entienda.</p>
+  <p>Ejemplo cotidiano: preparar una taza de té.</p>
+  <pre><code>1. Hervir agua
+2. Poner la bolsa de té en la taza
+3. Verter el agua en la taza
+4. Esperar 3 minutos
+5. Retirar la bolsa</code></pre>
+  <div class="idea"><b>Idea clave:</b> un buen algoritmo es <mark>preciso</mark> (sin ambigüedades), <mark>ordenado</mark> y <mark>finito</mark> (termina). Si cambias el orden de los pasos, el resultado cambia.</div>
+  <h3>Las tres partes de casi todo programa</h3>
+  <p><b>Entrada</b> (los datos que recibe) → <b>Proceso</b> (lo que hace con ellos) → <b>Salida</b> (el resultado que muestra).</p>
+</section>
+
+<section id="variables">
+  <h2><span class="n">2</span>Variables y tipos de datos</h2>
+  <p>Una <b>variable</b> es una caja con nombre donde guardas un dato para usarlo después.</p>
+<pre><code>nombre = <span class="s">"Ana"</span>
+edad = 19
+promedio = 8.7
+es_estudiante = <span class="k">True</span></code></pre>
+  <p>El signo <code>=</code> no significa "es igual" sino "guarda este valor en esta variable". Se lee de derecha a izquierda.</p>
+  <div class="tabla"><table>
+    <tr><th>Tipo</th><th>Qué guarda</th><th>Ejemplo</th></tr>
+    <tr><td><code>int</code></td><td>Números enteros</td><td><code>25</code>, <code>-3</code></td></tr>
+    <tr><td><code>float</code></td><td>Números con decimales</td><td><code>3.14</code></td></tr>
+    <tr><td><code>str</code></td><td>Texto (cadena)</td><td><code>"Hola"</code></td></tr>
+    <tr><td><code>bool</code></td><td>Verdadero o falso</td><td><code>True</code>, <code>False</code></td></tr>
+  </table></div>
+  <h3>Reglas para nombrar variables</h3>
+  <ul>
+    <li>Usa nombres que expliquen el contenido: <code>precio_total</code>, no <code>x</code>.</li>
+    <li>No empieces con número ni uses espacios; usa guion bajo.</li>
+    <li>Python distingue mayúsculas: <code>edad</code> y <code>Edad</code> son variables distintas.</li>
+  </ul>
+</section>
+
+<section id="operadores">
+  <h2><span class="n">3</span>Operadores: hacer cálculos y comparar</h2>
+  <h3>Aritméticos</h3>
+  <div class="tabla"><table>
+    <tr><th>Operador</th><th>Operación</th><th>Ejemplo</th><th>Resultado</th></tr>
+    <tr><td><code>+</code> <code>-</code> <code>*</code></td><td>Suma, resta, multiplicación</td><td><code>4 * 3</code></td><td>12</td></tr>
+    <tr><td><code>/</code></td><td>División</td><td><code>7 / 2</code></td><td>3.5</td></tr>
+    <tr><td><code>//</code></td><td>División entera</td><td><code>7 // 2</code></td><td>3</td></tr>
+    <tr><td><code>%</code></td><td>Residuo (módulo)</td><td><code>7 % 2</code></td><td>1</td></tr>
+    <tr><td><code>**</code></td><td>Potencia</td><td><code>2 ** 3</code></td><td>8</td></tr>
+  </table></div>
+  <h3>De comparación (dan <code>True</code> o <code>False</code>)</h3>
+  <p><code>==</code> igual · <code>!=</code> distinto · <code>&gt;</code> mayor · <code>&lt;</code> menor · <code>&gt;=</code> mayor o igual · <code>&lt;=</code> menor o igual</p>
+  <h3>Lógicos</h3>
+  <p><code>and</code> (se cumplen ambas), <code>or</code> (se cumple al menos una), <code>not</code> (invierte el resultado).</p>
+<pre><code>edad = 20
+print(edad &gt;= 18 <span class="k">and</span> edad &lt; 65)</code></pre>
+  <div class="salida">True</div>
+  <div class="idea"><b>Error común:</b> <code>=</code> guarda un valor, <code>==</code> compara dos valores. Confundirlos es el error de principiante más frecuente.</div>
+  <p>El residuo <code>%</code> sirve para saber si un número es par: si <code>n % 2 == 0</code>, es par.</p>
+</section>
+
+<section id="entrada-salida">
+  <h2><span class="n">4</span>Entrada y salida de datos</h2>
+  <p><code>print()</code> muestra información en pantalla. <code>input()</code> pide un dato al usuario y lo devuelve siempre como <b>texto</b>.</p>
+<pre><code>nombre = input(<span class="s">"¿Cómo te llamas? "</span>)
+edad = int(input(<span class="s">"¿Cuántos años tienes? "</span>))
+print(<span class="s">"Hola"</span>, nombre, <span class="s">"; el año que viene tendrás"</span>, edad + 1)</code></pre>
+  <div class="salida">¿Cómo te llamas? Ana
+¿Cuántos años tienes? 19
+Hola Ana ; el año que viene tendrás 20</div>
+  <p>Observa <code>int(...)</code>: convierte el texto a número entero. Sin esa conversión, <code>edad + 1</code> daría error porque no se puede sumar un texto con un número. Usa <code>float(...)</code> si el dato puede tener decimales.</p>
+  <p>Con una f-string puedes insertar variables dentro del texto:</p>
+<pre><code>print(<span class="s">f"Hola {nombre}, tienes {edad} años"</span>)</code></pre>
+</section>
+
+<section id="condicionales">
+  <h2><span class="n">5</span>Condicionales: tomar decisiones</h2>
+  <p>Un condicional ejecuta código <b>solo si</b> se cumple una condición.</p>
+<pre><code>calificacion = float(input(<span class="s">"Calificación: "</span>))
+
+<span class="k">if</span> calificacion &gt;= 9:
+    print(<span class="s">"Excelente"</span>)
+<span class="k">elif</span> calificacion &gt;= 6:
+    print(<span class="s">"Aprobado"</span>)
+<span class="k">else</span>:
+    print(<span class="s">"Reprobado"</span>)</code></pre>
+  <div class="salida">Calificación: 7.5
+Aprobado</div>
+  <ul>
+    <li><code>if</code>: se evalúa primero.</li>
+    <li><code>elif</code> (opcional, puede haber varios): se evalúa solo si las anteriores fallaron.</li>
+    <li><code>else</code> (opcional): se ejecuta si nada de lo anterior se cumplió.</li>
+  </ul>
+  <div class="idea"><b>Importante:</b> los dos puntos <code>:</code> y la <mark>sangría</mark> (4 espacios) son obligatorios. La sangría le dice a Python qué líneas pertenecen al bloque.</div>
+</section>
+
+<section id="ciclos">
+  <h2><span class="n">6</span>Ciclos: repetir sin copiar y pegar</h2>
+  <h3><code>for</code>: cuando sabes cuántas veces repetir</h3>
+<pre><code><span class="k">for</span> i <span class="k">in</span> range(1, 6):
+    print(<span class="s">"Vuelta"</span>, i)</code></pre>
+  <div class="salida">Vuelta 1
+Vuelta 2
+Vuelta 3
+Vuelta 4
+Vuelta 5</div>
+  <p><code>range(1, 6)</code> genera 1, 2, 3, 4, 5. El límite superior <b>no</b> se incluye.</p>
+  <h3><code>while</code>: mientras una condición sea verdadera</h3>
+<pre><code>clave = <span class="s">""</span>
+<span class="k">while</span> clave != <span class="s">"1234"</span>:
+    clave = input(<span class="s">"Clave: "</span>)
+print(<span class="s">"Acceso concedido"</span>)</code></pre>
+  <div class="idea"><b>Cuidado con el ciclo infinito:</b> dentro de un <code>while</code> algo debe cambiar para que la condición llegue a ser falsa. Si no, el programa nunca termina (detenlo con Ctrl + C).</div>
+  <h3>Patrón útil: acumulador</h3>
+<pre><code>suma = 0
+<span class="k">for</span> n <span class="k">in</span> range(1, 11):
+    suma = suma + n
+print(<span class="s">"La suma del 1 al 10 es"</span>, suma)</code></pre>
+  <div class="salida">La suma del 1 al 10 es 55</div>
+</section>
+
+<section id="funciones">
+  <h2><span class="n">7</span>Funciones: bloques reutilizables</h2>
+  <p>Una <b>función</b> agrupa instrucciones bajo un nombre para usarlas cuantas veces quieras. Recibe <b>parámetros</b> (entrada) y puede <b>devolver</b> un resultado con <code>return</code>.</p>
+<pre><code><span class="k">def</span> area_rectangulo(base, altura):
+    <span class="k">return</span> base * altura
+
+print(area_rectangulo(5, 3))
+print(area_rectangulo(10, 2))</code></pre>
+  <div class="salida">15
+20</div>
+  <ul>
+    <li>Se <b>define</b> una vez con <code>def</code> y se <b>llama</b> las veces necesarias.</li>
+    <li><code>return</code> entrega el resultado y termina la función.</li>
+    <li>Las variables creadas dentro de una función solo existen dentro de ella (alcance local).</li>
+  </ul>
+  <div class="idea"><b>Buena práctica:</b> cada función debe hacer <mark>una sola cosa</mark> y tener un nombre que diga cuál es.</div>
+</section>
+
+<section id="listas">
+  <h2><span class="n">8</span>Listas: muchos datos en una variable</h2>
+  <p>Una <b>lista</b> guarda varios valores ordenados. Cada uno tiene una posición (<b>índice</b>) que empieza en <mark>0</mark>.</p>
+<pre><code>calificaciones = [8, 9, 6, 10]
+
+print(calificaciones[0])      <span class="c"># primer elemento</span>
+calificaciones.append(7)      <span class="c"># agrega al final</span>
+print(len(calificaciones))    <span class="c"># cantidad de elementos</span>
+
+<span class="k">for</span> nota <span class="k">in</span> calificaciones:
+    print(nota)</code></pre>
+  <div class="salida">8
+5
+8
+9
+6
+10
+7</div>
+  <p>Combinando ciclos y listas ya puedes calcular un promedio:</p>
+<pre><code>promedio = sum(calificaciones) / len(calificaciones)
+print(<span class="s">f"Promedio: {promedio}"</span>)</code></pre>
+  <div class="salida">Promedio: 8.0</div>
+</section>
+
+<section id="practica">
+  <h2><span class="n">9</span>Práctica final</h2>
+  <p>Intenta cada ejercicio por tu cuenta antes de abrir la solución. Equivocarte y corregir es parte del aprendizaje.</p>
+
+  <p class="reto">Ejercicio 1: ¿es par o impar?</p>
+  <p>Pide un número y muestra si es par o impar. (Temas 4 y 5)</p>
+  <details><summary>Ver solución</summary>
+<pre><code>n = int(input(<span class="s">"Número: "</span>))
+<span class="k">if</span> n % 2 == 0:
+    print(<span class="s">"Par"</span>)
+<span class="k">else</span>:
+    print(<span class="s">"Impar"</span>)</code></pre></details>
+
+  <p class="reto">Ejercicio 2: tabla de multiplicar</p>
+  <p>Pide un número y muestra su tabla del 1 al 10. (Temas 4 y 6)</p>
+  <details><summary>Ver solución</summary>
+<pre><code>n = int(input(<span class="s">"Tabla del: "</span>))
+<span class="k">for</span> i <span class="k">in</span> range(1, 11):
+    print(<span class="s">f"{n} x {i} = {n * i}"</span>)</code></pre></details>
+
+  <p class="reto">Ejercicio 3: promedio con función</p>
+  <p>Crea una función <code>promedio(lista)</code> que devuelva el promedio de una lista de calificaciones y úsala con tres notas que pida al usuario. (Temas 4, 6, 7 y 8)</p>
+  <details><summary>Ver solución</summary>
+<pre><code><span class="k">def</span> promedio(lista):
+    <span class="k">return</span> sum(lista) / len(lista)
+
+notas = []
+<span class="k">for</span> i <span class="k">in</span> range(3):
+    notas.append(float(input(<span class="s">"Nota: "</span>)))
+
+print(<span class="s">"Promedio:"</span>, promedio(notas))</code></pre></details>
+
+  <h3>Para cuando algo no funciona</h3>
+  <ul>
+    <li>Lee el mensaje de error de <b>abajo hacia arriba</b>: la última línea dice qué pasó y la anterior, dónde.</li>
+    <li><code>SyntaxError</code>: falta un símbolo (<code>:</code>, paréntesis o comillas).</li>
+    <li><code>NameError</code>: escribiste mal el nombre de una variable o la usaste antes de crearla.</li>
+    <li><code>IndentationError</code>: la sangría no es consistente.</li>
+    <li><code>TypeError</code>: mezclaste tipos, por ejemplo texto con número.</li>
+    <li>Usa <code>print()</code> para ver el valor de tus variables en cada paso.</li>
+  </ul>
+</section>
+
+<footer>Practica un poco cada día: escribir código, aunque sea poco, enseña más que releer la teoría.</footer>
+</main>
+</div>
+</body>
+</html>
